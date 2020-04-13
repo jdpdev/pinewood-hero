@@ -19,7 +19,7 @@ class GameLoop extends Component {
                     <PhaserComponent />
                 </div>
                 <div className='race-outline'>
-                    <div onClick={this.startDemoRace}>
+                    <div>
                         <h4>Day {this.props.day} - Race {this.props.currentRace + 1}</h4>
                         <button onClick={this.startDemoRace}>
                             Start Race {this.props.currentRace + 1}

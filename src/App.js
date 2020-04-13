@@ -2,11 +2,9 @@ import React, { Component } from "react";
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 
-import {createGameStore} from './store/index';
-
+import {store} from './store/index';
 import GameLoop from "./components/GameLoop";
 
-const store = createGameStore();
 
 export class App extends Component {
     render() {

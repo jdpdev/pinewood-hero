@@ -61,8 +61,6 @@ export class RaceManager {
             return car.distanceTraveled >= distance;
         });
 
-        console.log(`[leader] ${leader.distanceTraveled}`);
-
         if (finishers.length > 0) {
             return finishers;
         } else {

@@ -1,4 +1,5 @@
 export function registerListener(eventType, callback) {
+    console.log(`[registerListener] ${eventType}`);
     document.addEventListener(eventType, callback);
 
     return () => {
@@ -15,5 +16,6 @@ export function removeListener(eventType, callback) {
  * @param {Event} event 
  */
 export function dispatchEvent(event) {
+    console.log(`[dispatchEvent] ${event.type}`);
     document.dispatchEvent(event);
 }

@@ -24,7 +24,7 @@ export class RaceScene extends Phaser.Scene {
      * @param {StartRaceEvent} event 
      */
     init(event) {
-
+        console.log('[RaceScene] init')
     }
 
     preload() {

@@ -8,6 +8,10 @@ export class LoadingScene extends Phaser.Scene {
         super('loading-scene')
     }
 
+    init() {
+        console.log('[Loading Scene] init')
+    }
+
     create() {
         const callback = (event) => this.scene.start(RACE_SCENE, event);
         registerListener(START_RACE_EVENT, callback);
