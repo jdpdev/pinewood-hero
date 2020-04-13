@@ -5,3 +5,9 @@ export type GameState = {
     dailyRaces: DailyRace[],
     currentRace: number
 }
+
+export const initialState: GameState = {
+    day: 0,
+    dailyRaces: [],
+    currentRace: 0
+}

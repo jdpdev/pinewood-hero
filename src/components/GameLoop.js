@@ -4,6 +4,7 @@ import {setCurrentDay, setCurrentDailyRace, addDailyRace} from '../store/dailyRa
 
 import {connect} from "react-redux";
 import { generateDailyRaces } from "../game/dailyRaces";
+import { PhaserComponent } from "./Phaser";
 
 class GameLoop extends Component {
     componentDidMount() {
@@ -13,11 +14,18 @@ class GameLoop extends Component {
 
     render() {
         return (
-            <div onClick={this.startDemoRace}>
-                <h4>Day {this.props.day} - Race {this.props.currentRace + 1}</h4>
-                <button onClick={this.startDemoRace}>
-                    Start Race {this.props.currentRace + 1}
-                </button>
+            <div>
+                <div className='race-view'>
+                    <PhaserComponent />
+                </div>
+                <div className='race-outline'>
+                    <div onClick={this.startDemoRace}>
+                        <h4>Day {this.props.day} - Race {this.props.currentRace + 1}</h4>
+                        <button onClick={this.startDemoRace}>
+                            Start Race {this.props.currentRace + 1}
+                        </button>
+                    </div>
+                </div>
             </div>
         )
     }
@@ -39,11 +47,13 @@ class GameLoop extends Component {
     }
 }
 
-const mapStateToProps = state => ({
-    day: state.day,
-    dailyRaces: state.dailyRaces,
-    currentRace: state.currentRace
-})
+const mapStateToProps = state => {
+    return {
+        day: state.day,
+        dailyRaces: state.dailyRaces,
+        currentRace: state.currentRace
+    }
+}
 
 const mapDispatchToProps = {
     setCurrentDay,

@@ -1,4 +1,12 @@
 import { createStore } from "redux";
-import { RaceReducer } from "./reducers";
+import { raceReducer } from "./reducers";
+import { initialState } from "./store";
 
-export default createStore(RaceReducer);
+export function createGameStore() {
+    const store = createStore(raceReducer, {
+        day: 0,
+        dailyRaces: [],
+        currentRace: 0
+    });
+    return store;
+}

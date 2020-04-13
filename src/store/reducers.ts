@@ -1,18 +1,12 @@
 import { DailyRaceActions } from "./dailyRaceActions"
-import { GameState } from "./store";
-
-const initialState: GameState = {
-    day: 0,
-    dailyRaces: [],
-    currentRace: 0
-}
+import { initialState } from "./store";
 
 type ActionParams = {
     type: string,
     payload?: any
 }
 
-export const RaceReducer = (state = initialState, action: ActionParams) => {
+export function raceReducer(state = initialState, action: ActionParams) {
     switch (action.type) {
         case DailyRaceActions.SetDay:
             const updatedDayState = {...state};
@@ -28,5 +22,8 @@ export const RaceReducer = (state = initialState, action: ActionParams) => {
             const newState = {...state};
             newState.dailyRaces.push(action.payload);
             return newState;
+
+        default:
+            return state;
     }
 }

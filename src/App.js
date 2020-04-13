@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 
-import store from './store';
+import {createGameStore} from './store/index';
 
 import GameLoop from "./components/GameLoop";
-import { PhaserComponent } from "./components/Phaser";
+
+const store = createGameStore();
 
 export class App extends Component {
     render() {
@@ -13,7 +14,6 @@ export class App extends Component {
             <div>
                 <Provider store={store}>
                     <GameLoop />
-                    <PhaserComponent />
                 </Provider>
             </div>
         )
