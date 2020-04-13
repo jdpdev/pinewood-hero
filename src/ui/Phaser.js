@@ -4,7 +4,7 @@ import { LoadingScene } from '../scenes/loading/LoadingScene';
 import { RaceScene } from '../scenes/race/RaceScene';
 import { PinewoodPlugin } from '../scenes/race/plugin/PinewoodPlugin';
 
-const GAME_WIDTH = 800;
+const GAME_WIDTH = 600;
 const GAME_HEIGHT = 600;
 
 export class PhaserComponent extends Component {

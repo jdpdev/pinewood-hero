@@ -1,6 +1,7 @@
 import Phaser from 'phaser'
 import Track from './components/Track';
 import { RaceManager } from './components/RaceManager';
+import { StartRaceEvent } from '../../events/StartRaceEvent';
 
 export const RACE_SCENE = 'ready-set-race';
 
@@ -16,6 +17,14 @@ export class RaceScene extends Phaser.Scene {
                 scrollY: 0
             }
         });
+    }
+
+    /**
+     * 
+     * @param {StartRaceEvent} event 
+     */
+    init(event) {
+
     }
 
     preload() {
