@@ -1,4 +1,4 @@
-import { DailyRaceActions } from "./dailyRaceActions"
+import { DailyRaceActions } from "./actions/dailyRaceActions"
 import { initialState } from "./store";
 
 type ActionParams = {

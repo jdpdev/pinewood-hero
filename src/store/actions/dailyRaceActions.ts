@@ -1,4 +1,4 @@
-import { DailyRace } from "../game/data/DailyRace"
+import { DailyRace } from "../../game/data/DailyRace"
 
 export enum DailyRaceActions {
     SetDay = 'set-game-day',
