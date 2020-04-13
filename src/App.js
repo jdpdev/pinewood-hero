@@ -1,13 +1,19 @@
 import React, { Component } from "react";
 import ReactDOM from 'react-dom';
+import {Provider} from 'react-redux';
+
+import store from './store';
+
 import { UIComponent } from "./ui/UI";
 import { PhaserComponent } from "./ui/Phaser";
 
 export class App extends Component {
     render() {
         return (<div>
-            <UIComponent />
-            <PhaserComponent />
+            <Provider store={store}>
+                <UIComponent />
+                <PhaserComponent />
+            </Provider>
         </div>)
     }
 }
