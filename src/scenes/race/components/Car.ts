@@ -15,7 +15,7 @@ export class Car {
     constructor(
         private track: Track, 
         private world: RaceWorld, 
-        private racer: Racer,
+        private _racer: Racer,
         private lane: number
 
     ) {
@@ -65,7 +65,7 @@ export class Car {
     }
 
     getDragForce() {
-        return 50000;
+        return 50;
     }
 
     get distanceTraveled() {
@@ -74,6 +74,10 @@ export class Car {
 
     get speed() {
         return this._wheelSpeed * this.wheelRadius;
+    }
+
+    get racer() {
+        return this._racer;
     }
 
     private calculateWeight(): number {

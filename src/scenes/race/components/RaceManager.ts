@@ -2,6 +2,7 @@ import { Car } from "./Car.ts";
 import { RaceWorld } from "./RaceWorld";
 import Track from "./Track";
 import { Racer } from "../../../game/data/Racer";
+import { Finisher } from "../../../game/data/Finisher";
 
 export enum RaceState {
     Formation,
@@ -13,6 +14,11 @@ export enum RaceState {
 export class RaceManager {
     private _state: RaceState = RaceState.Formation;
     private _cars: Car[] = [];
+
+    /** elapsed race time in ms */
+    private _raceTime: number = 0;
+
+    private _finishers: Finisher[] = [];
 
     constructor(
         private _world: RaceWorld, 
@@ -34,41 +40,53 @@ export class RaceManager {
                 break;
 
             case RaceState.Race:
-                this._cars.forEach(car => car.update(delta, this._state));
+                this.updateCars(delta);
+                this.updateTimer(delta);
 
                 const leader = this.getLeader();
-                const increment = leader.speed * delta;
+                const increment = leader.speed * (delta / 1000);
                 this._camera.setScroll(this._camera.scrollX + increment, this._camera.scrollY + increment);
 
-                const finishers = this.checkForFinish();
+                this.checkForFinish();
 
-                if (finishers) {
+                if (this._finishers.length > 0) {
                     this._state = RaceState.Finish;
                 }
                 break;
 
             case RaceState.Finish:
-                this._cars.forEach(car => car.update(delta, this._state));
+                this.updateCars(delta);
+                this.updateTimer(delta);
+                this.checkForFinish();
+
+                if (this._finishers.length === this._cars.length) {
+                    this.completeRace();
+                }
                 break;
         }
     }
 
+    private updateCars(delta) {
+        this._cars.forEach(car => car.update(delta / 1000, this._state));
+    }
+
+    private updateTimer(delta) {
+        this._raceTime += delta;
+    }
+
     checkForFinish() {
         const distance = this._track.winningDistance;
-        let leader = this._cars[0];
-        const finishers = this._cars.filter(car => {
-            if (car.distanceTraveled > leader.distanceTraveled) {
-                leader = car;
+        this._cars.forEach(car => {
+            if (car.distanceTraveled >= distance) {
+                const finisher = this._finishers.find(finisher => finisher.racer === car.racer);
+
+                if (!finisher) {
+                    this._finishers.push(
+                        new Finisher(car.racer, this._raceTime)
+                    );
+                }
             }
-
-            return car.distanceTraveled >= distance;
-        });
-
-        if (finishers.length > 0) {
-            return finishers;
-        } else {
-            return null;
-        }
+        })
     }
 
     getLeader() {
@@ -81,5 +99,9 @@ export class RaceManager {
         })
 
         return leader;
+    }
+
+    private completeRace() {
+
     }
 }

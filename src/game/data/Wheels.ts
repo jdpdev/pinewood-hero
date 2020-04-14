@@ -13,6 +13,6 @@ export class Wheels {
     }
 
     get maxSpeed() {
-        return 0.2;
+        return 200;
     }
 }
