@@ -1,10 +1,17 @@
 import { DailyRace } from "../../game/data/DailyRace";
-import { Racer } from "../../game/data/Racer";
+import { RunningOrder } from "../../game/data/RunningOrder";
+
+export enum InRaceState {
+    NotLoaded = 'not-loaded',
+    Loaded = 'loaded',
+    Running = 'running',
+    Finished = 'finished'
+}
 
 export enum InRaceActions {
     Load = 'inrace-load',
     Start = 'inrace-start',
-    LeadChange = 'inrace-lead-change',
+    OrderChange = 'inrace-order-change',
     Finish = 'inrace-finish'
 }
 
@@ -21,16 +28,15 @@ export function startRace() {
     }
 }
 
-export function leadChange(leader: Racer) {
+export function orderChange(order: RunningOrder[]) {
     return {
-        type: InRaceActions.LeadChange,
-        payload: leader
+        type: InRaceActions.OrderChange,
+        payload: order
     }
 }
 
-export function finishRace(winner: Racer) {
+export function finishRace() {
     return {
-        type: InRaceActions.Finish,
-        payload: winner
+        type: InRaceActions.Finish
     }
 }

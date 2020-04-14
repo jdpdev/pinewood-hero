@@ -3,13 +3,18 @@ import { Racer } from "../game/data/Racer";
 import { Driver } from "../game/data/Driver";
 import { Body } from "../game/data/Body";
 import { Wheels } from "../game/data/Wheels";
+import { RunningOrder } from "../game/data/RunningOrder";
+import { InRaceState } from "./actions/inRaceActions";
 
 export type GameState = {
     day: number,
     dailyRaces: DailyRace[],
     currentRace: number,
+    currentRaceState: InRaceState
+    loadedRace: DailyRace,
+    raceRunningOrder: RunningOrder[],
+    
     racers: Racer[],
-    loadedRace: DailyRace
 }
 
 export const initialState: GameState = {
@@ -17,6 +22,8 @@ export const initialState: GameState = {
     dailyRaces: [],
     currentRace: 0,
     loadedRace: null,
+    currentRaceState: InRaceState.NotLoaded,
+    raceRunningOrder: null,
     racers: [
         new Racer(
             'Oh Hi Mark', 

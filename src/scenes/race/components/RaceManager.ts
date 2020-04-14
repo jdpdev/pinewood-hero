@@ -1,14 +1,17 @@
-import { Car } from "./Car.ts";
+import { Car } from "./Car";
 import { RaceWorld } from "./RaceWorld";
 import Track from "./Track";
 import { Racer } from "../../../game/data/Racer";
-import { Finisher } from "../../../game/data/Finisher";
+import { RunningOrder } from "../../../game/data/RunningOrder";
+import { store } from "../../../store";
+import { startRace, orderChange, finishRace } from "../../../store/actions/inRaceActions";
 
 export enum RaceState {
     Formation,
     Countdown,
     Race,
-    Finish
+    Finish,
+    Over
 }
 
 export class RaceManager {
@@ -18,7 +21,9 @@ export class RaceManager {
     /** elapsed race time in ms */
     private _raceTime: number = 0;
 
-    private _finishers: Finisher[] = [];
+    private _runningOrder: RunningOrder[] = [];
+
+    private _finishers: RunningOrder[] = [];
 
     constructor(
         private _world: RaceWorld, 
@@ -30,40 +35,46 @@ export class RaceManager {
         cars.forEach((racer, lane) => {
             const car = new Car(this._track, this._world, racer, lane);
             this._cars.push(car);
+
+            this._runningOrder.push(new RunningOrder(racer, 0));
         });
     }
 
     update(delta: number) {
         switch (this._state) {
             case RaceState.Formation:
-                this._state = RaceState.Race;
+                this.beginRace();
                 break;
 
             case RaceState.Race:
-                this.updateCars(delta);
-                this.updateTimer(delta);
+                this.stepRace(delta);
 
                 const leader = this.getLeader();
                 const increment = leader.speed * (delta / 1000);
                 this._camera.setScroll(this._camera.scrollX + increment, this._camera.scrollY + increment);
-
-                this.checkForFinish();
-
-                if (this._finishers.length > 0) {
-                    this._state = RaceState.Finish;
-                }
                 break;
 
             case RaceState.Finish:
-                this.updateCars(delta);
-                this.updateTimer(delta);
-                this.checkForFinish();
+                this.stepRace(delta);
+                break;
 
-                if (this._finishers.length === this._cars.length) {
-                    this.completeRace();
-                }
+            case RaceState.Over:
+                this.updateCars(delta);
                 break;
         }
+    }
+
+    private beginRace() {
+        store.dispatch(startRace());
+        this._state = RaceState.Race;
+    }
+
+    private stepRace(delta) {
+        this.updateCars(delta);
+        this.updateTimer(delta);
+
+        this.updateRunningOrder();
+        this.checkForFinish();
     }
 
     private updateCars(delta) {
@@ -74,19 +85,75 @@ export class RaceManager {
         this._raceTime += delta;
     }
 
-    checkForFinish() {
-        const distance = this._track.winningDistance;
-        this._cars.forEach(car => {
-            if (car.distanceTraveled >= distance) {
-                const finisher = this._finishers.find(finisher => finisher.racer === car.racer);
+    private updateRunningOrder() {
+        const endDistance = this._track.winningDistance;
+        const newOrder = [...this._runningOrder];
 
-                if (!finisher) {
-                    this._finishers.push(
-                        new Finisher(car.racer, this._raceTime)
-                    );
+        newOrder.forEach(runner => {
+            const car = this.getCarForRacer(runner.racer);
+
+            if (!runner.isFinished) {
+                runner.updateDistance(car.distanceTraveled);
+
+                if (car.distanceTraveled >= endDistance) {
+                    runner.setFinishTime(this._raceTime);
                 }
             }
-        })
+        });
+
+        newOrder.sort((a, b) => {
+            if (a.isFinished && !b.isFinished) {
+                return -1;
+            } else if (b.isFinished && !a.isFinished) {
+                return 1;
+            } else if (a.isFinished && b.isFinished) {
+                return a.finishTime - b.finishTime;
+            } else {
+                return a.distance - b.distance;
+            }
+        });
+
+        // compare and update
+        let needsUpdate = false;
+
+        for (let i = 0; i < this._runningOrder.length; i++) {
+            if (this._runningOrder[i].isDifferent(newOrder[i])) {
+                needsUpdate = true;
+                break;
+            }
+        }
+
+        if (needsUpdate) {
+            this._runningOrder = newOrder;
+            store.dispatch(orderChange(newOrder));
+        }
+    }
+
+    private getCarForRacer(racer: Racer): Car {
+        return this._cars.find(car => car.racer.id === racer.id);
+    }
+
+    checkForFinish() {
+        const finishes = this._runningOrder.map(runner => runner.isFinished);
+
+        const isSomeoneFinished = finishes.reduce(
+            (result, value) => result || value, 
+            false
+        );
+        const isEveryoneFinished = finishes.reduce(
+            (result, value) => result && value, 
+            true
+        );
+
+        if (isSomeoneFinished && this._state != RaceState.Finish) {
+            this._state = RaceState.Finish;
+            console.log('[RaceManager] Race Won')
+        }
+
+        if (isEveryoneFinished) {
+            this.completeRace();
+            console.log('[RaceManager] Race Over')
+        }
     }
 
     getLeader() {
@@ -102,6 +169,7 @@ export class RaceManager {
     }
 
     private completeRace() {
-
+        this._state = RaceState.Over;
+        store.dispatch(finishRace());
     }
 }

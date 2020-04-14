@@ -1,6 +1,6 @@
 import { DailyRaceActions } from "./actions/dailyRaceActions"
 import { initialState } from "./store";
-import { InRaceActions } from "./actions/inRaceActions";
+import { InRaceActions, InRaceState } from "./actions/inRaceActions";
 import { StartRaceEvent } from "../events/StartRaceEvent";
 
 type ActionParams = {
@@ -44,7 +44,26 @@ export function raceReducer(state = initialState, action: ActionParams) {
             const event = new StartRaceEvent(action.payload);
             event.dispatch();
 
-            return {...state, loadedRace: action.payload}; 
+            return {
+                ...state, 
+                loadedRace: action.payload,
+                currentRaceState: InRaceState.Loaded
+            }; 
+
+        case InRaceActions.Start:
+            return {
+                ...state, 
+                currentRaceState: InRaceState.Running
+            };
+
+        case InRaceActions.OrderChange:
+            return {...state, raceRunningOrder: action.payload};
+
+        case InRaceActions.Finish:
+            return {
+                ...state, 
+                currentRaceState: InRaceState.Finished
+            };
 
         default:
             return state;

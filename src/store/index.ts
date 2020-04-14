@@ -2,7 +2,7 @@ import { createStore } from "redux";
 import { raceReducer } from "./reducers";
 
 function createGameStore() {
-    const store = createStore(raceReducer);
+    const store = createStore(raceReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
     return store;
 }
 
