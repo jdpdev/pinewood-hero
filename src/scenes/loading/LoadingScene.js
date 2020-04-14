@@ -1,7 +1,8 @@
 import Phaser from 'phaser'
-import { RaceScene, RACE_SCENE } from '../race/RaceScene';
+import { RaceScene, RACE_SCENE } from '../race/RaceScene.ts';
 import { StartRaceEvent, START_RACE_EVENT } from '../../events/StartRaceEvent';
 import { registerListener, removeListener } from '../../events/core';
+import { store } from '../../store';
 
 export class LoadingScene extends Phaser.Scene {
     constructor() {

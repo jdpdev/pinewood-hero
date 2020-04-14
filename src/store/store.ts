@@ -8,13 +8,15 @@ export type GameState = {
     day: number,
     dailyRaces: DailyRace[],
     currentRace: number,
-    racers: Racer[]
+    racers: Racer[],
+    loadedRace: DailyRace
 }
 
 export const initialState: GameState = {
     day: 1,
     dailyRaces: [],
     currentRace: 0,
+    loadedRace: null,
     racers: [
         new Racer(
             'Oh Hi Mark', 

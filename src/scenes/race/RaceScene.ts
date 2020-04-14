@@ -2,10 +2,17 @@ import Phaser from 'phaser'
 import Track from './components/Track';
 import { RaceManager } from './components/RaceManager';
 import { StartRaceEvent } from '../../events/StartRaceEvent';
+import { RaceWorld } from './components/RaceWorld';
+import { DailyRace } from '../../game/data/DailyRace';
 
 export const RACE_SCENE = 'ready-set-race';
 
 export class RaceScene extends Phaser.Scene {
+    private world: RaceWorld;
+    private track: Track;
+    private manager: RaceManager;
+    private race: DailyRace;
+
     constructor() {
         super({
             key: RACE_SCENE,
@@ -14,7 +21,13 @@ export class RaceScene extends Phaser.Scene {
                 x: 0,
                 y: 0,
                 scrollX: 0,
-                scrollY: 0
+                scrollY: 0,
+                width: 600,
+                height: 400,
+                zoom: 1,
+                rotation: 0,
+                backgroundColor: '#000',
+                roundPixels: false
             }
         });
     }
@@ -23,8 +36,9 @@ export class RaceScene extends Phaser.Scene {
      * 
      * @param {StartRaceEvent} event 
      */
-    init(event) {
+    init(event: StartRaceEvent) {
         console.log('[RaceScene] init')
+        this.race = event.race;
     }
 
     preload() {
@@ -40,14 +54,14 @@ export class RaceScene extends Phaser.Scene {
         this.world = this.add.raceWorld();
 
         this.track = new Track(this.world);
-        const target = this.track.build(4, 40);
+        const target = this.track.build(this.race.racers.length, this.race.length);
 
         const camera = this.cameras.main;
         const scroll = camera.getScroll(target.x, target.y);
         camera.setScroll(scroll.x, scroll.y);
 
         this.manager = new RaceManager(this.world, camera, this.track);
-        this.manager.build(4);
+        this.manager.build(this.race.racers);
     }
 
     update(time, delta) {

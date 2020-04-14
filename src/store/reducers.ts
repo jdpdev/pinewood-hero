@@ -1,5 +1,7 @@
 import { DailyRaceActions } from "./actions/dailyRaceActions"
 import { initialState } from "./store";
+import { InRaceActions } from "./actions/inRaceActions";
+import { StartRaceEvent } from "../events/StartRaceEvent";
 
 type ActionParams = {
     type: string,
@@ -37,6 +39,12 @@ export function raceReducer(state = initialState, action: ActionParams) {
             }
 
             return {...state, dailyRaces: races};
+
+        case InRaceActions.Load:
+            const event = new StartRaceEvent(action.payload);
+            event.dispatch();
+
+            return {...state, loadedRace: action.payload}; 
 
         default:
             return state;

@@ -1,7 +1,7 @@
 import Phaser from 'phaser'
 import React, { Component } from 'react';
 import { LoadingScene } from '../scenes/loading/LoadingScene';
-import { RaceScene } from '../scenes/race/RaceScene';
+import { RaceScene } from '../scenes/race/RaceScene.ts';
 import { PinewoodPlugin } from '../scenes/race/plugin/PinewoodPlugin';
 
 const GAME_WIDTH = 500;

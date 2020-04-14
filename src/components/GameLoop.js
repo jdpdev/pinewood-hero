@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import { StartRaceEvent, RaceEntrant } from "../events/StartRaceEvent";
 import {setCurrentDay, setCurrentDailyRace, addDailyRace} from '../store/actions/dailyRaceActions'
+import {loadRace} from '../store/actions/inRaceActions'
 
 import {connect} from "react-redux";
 import { generateDailyRaces } from "../game/dailyRaces";
@@ -9,7 +9,7 @@ import DailyRaceList from "./DailyRaceList";
 
 import './style/GameLoop.scss'
 
-function GameLoop({day, currentRace, dailyRaces, racers}) {
+function GameLoop({day, currentRace, dailyRaces, racers, loadRace}) {
     useEffect(() => {
         generateDailyRaces();
     }, [day]);
@@ -22,7 +22,7 @@ function GameLoop({day, currentRace, dailyRaces, racers}) {
             <div className='race-outline'>
                 <div>
                     <h4>Day {day} - Race {currentRace + 1}</h4>
-                    <button onClick={startDemoRace}>
+                    <button onClick={() => loadRace(dailyRaces[currentRace])}>
                         Start Race {currentRace + 1}
                     </button>
                 </div>
@@ -38,14 +38,8 @@ function GameLoop({day, currentRace, dailyRaces, racers}) {
     )
 }
 
-function startDemoRace(racers) {
-    new StartRaceEvent()
-        .setLength(30)
-        .addEntrant(racers[0])
-        .addEntrant(racers[1])
-        .addEntrant(racers[2])
-        .addEntrant(racers[3])
-        .dispatch();
+function loadNextRace(loadRace, race) {
+    loadRace(race);
 }
 
 const mapStateToProps = state => {
@@ -60,7 +54,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
     setCurrentDay,
     setCurrentDailyRace,
-    addDailyRace
+    addDailyRace,
+    loadRace
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(GameLoop);
