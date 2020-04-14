@@ -1,0 +1,42 @@
+.daily-race-list {
+    .race-list-item {
+        display: flex;
+        width: 100%;
+        padding: 5px;
+
+        &.is-past {
+            color: #999;
+        }
+
+        &.is-current {
+            background-color: #a5c4f3;
+        }
+
+        .race-number {
+            flex: 0 0 40px;
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        .race-details {
+            flex: 1 1 auto;
+
+            .racer-row {
+                display: flex;
+    
+                .racer-number {
+                    flex: 0 0 40px;
+                }
+                
+                .racer-odds {
+                    flex: 0 0 60px;
+                }
+
+                &.header {
+                    font-size: 0.8em;
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+}

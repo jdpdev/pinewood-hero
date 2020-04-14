@@ -5,6 +5,9 @@ import {setCurrentDay, setCurrentDailyRace, addDailyRace} from '../store/actions
 import {connect} from "react-redux";
 import { generateDailyRaces } from "../game/dailyRaces";
 import { PhaserComponent } from "./Phaser";
+import DailyRaceList from "./DailyRaceList";
+
+import './style/GameLoop.scss'
 
 function GameLoop({day, currentRace, dailyRaces, racers}) {
     useEffect(() => {
@@ -12,7 +15,7 @@ function GameLoop({day, currentRace, dailyRaces, racers}) {
     }, [day]);
 
     return (
-        <div>
+        <div className='game-loop'>
             <div className='race-view'>
                 <PhaserComponent />
             </div>
@@ -23,6 +26,13 @@ function GameLoop({day, currentRace, dailyRaces, racers}) {
                         Start Race {currentRace + 1}
                     </button>
                 </div>
+            </div>
+            <div className='daily-race-list'>
+                <DailyRaceList
+                    day={day}
+                    dailyRaces={dailyRaces}
+                    currentRace={currentRace}
+                />
             </div>
         </div>
     )

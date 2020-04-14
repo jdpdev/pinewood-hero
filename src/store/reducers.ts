@@ -19,9 +19,24 @@ export function raceReducer(state = initialState, action: ActionParams) {
             return updatedRaceAction;
 
         case DailyRaceActions.AddRace:
-            const newState = {...state};
-            newState.dailyRaces.push(action.payload);
-            return newState;
+            const raceList = [...state.dailyRaces];
+            raceList.push(action.payload);
+            return {...state, dailyRaces: raceList};
+
+        case DailyRaceActions.ClearRaces:
+            return {...state, dailyRaces: []};
+
+        case DailyRaceActions.SetWinner:
+            const races = [...state.dailyRaces];
+
+            for (let i = 0; i < races.length; i++) {
+                if (races[i].id == action.payload.race) {
+                    races[i].winner = action.payload.winner;
+                    break;
+                }
+            }
+
+            return {...state, dailyRaces: races};
 
         default:
             return state;

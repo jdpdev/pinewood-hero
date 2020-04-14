@@ -1,0 +1,23 @@
+.game-loop {
+    display: grid;
+
+    grid-template-columns: [left] 500px [right] auto;
+    grid-template-rows: [top] 400px [bottom] auto;
+    column-gap: 20px;
+    row-gap: 20px;
+
+    .race-view {
+        grid-column: left;
+        grid-row: top;
+    }
+
+    .race-outline {
+        grid-column: left;
+        grid-row: bottom;
+    }
+
+    .daily-race-list {
+        grid-column: right;
+        grid-row: top / span 2;
+    }
+}
