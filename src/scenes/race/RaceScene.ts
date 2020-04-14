@@ -1,6 +1,6 @@
 import Phaser from 'phaser'
 import Track from './components/Track';
-import { RaceManager } from './components/RaceManager.ts';
+import { RaceManager } from './components/RaceManager';
 import { StartRaceEvent } from '../../events/StartRaceEvent';
 import { RaceWorld } from './components/RaceWorld';
 import { DailyRace } from '../../game/data/DailyRace';
@@ -51,6 +51,7 @@ export class RaceScene extends Phaser.Scene {
     }
 
     create() {
+        //@ts-ignore
         this.world = this.add.raceWorld();
 
         this.track = new Track(this.world);
