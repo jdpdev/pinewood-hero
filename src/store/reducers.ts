@@ -20,6 +20,13 @@ export function raceReducer(state = initialState, action: ActionParams) {
             updatedRaceAction.currentRace = action.payload;
             return updatedRaceAction;
 
+        case DailyRaceActions.PrimeRace:
+            return {
+                ...state, 
+                loadedRace: action.payload, 
+                currentRaceState: InRaceState.Loaded
+            };
+
         case DailyRaceActions.AddRace:
             const raceList = [...state.dailyRaces];
             raceList.push(action.payload);
@@ -44,11 +51,7 @@ export function raceReducer(state = initialState, action: ActionParams) {
             const event = new StartRaceEvent(action.payload);
             event.dispatch();
 
-            return {
-                ...state, 
-                loadedRace: action.payload,
-                currentRaceState: InRaceState.Loaded
-            }; 
+            return state; 
 
         case InRaceActions.Start:
             return {

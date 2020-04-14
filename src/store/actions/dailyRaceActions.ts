@@ -6,7 +6,8 @@ export enum DailyRaceActions {
     SetCurrentRace = 'daily-race-set-current',
     AddRace = 'daily-race-add-race',
     ClearRaces = 'daily-race-clear',
-    SetWinner = 'daily-race-set-winner'
+    SetWinner = 'daily-race-set-winner',
+    PrimeRace = 'daily-race-prime-race'
 }
 
 export function setCurrentDay(day: number) {
@@ -42,5 +43,12 @@ export function setDailyRaceWinner(race: DailyRace, winner: Racer) {
         payload: {
             race, winner
         }
+    }
+}
+
+export function primeDailyRace(race: DailyRace) {
+    return {
+        type: DailyRaceActions.PrimeRace,
+        payload: race
     }
 }

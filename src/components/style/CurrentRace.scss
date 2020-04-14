@@ -1,0 +1,51 @@
+.current-race-container {
+    .header {
+        display: flex;
+    }
+
+    .next-race-display {
+
+    }
+
+    .race-running-display {
+
+    }
+
+    .race-entry-row {
+        display: flex;
+
+        .icon {
+            flex: 0 0 30px;
+            text-align: center;
+            margin-top: 4px;
+
+            .icon-win {
+                color: #eab562;
+            }
+
+            .icon-place {
+                color: #c5cbd4;
+            }
+
+            .icon-show {
+                color: #ea9362;
+            }
+        }
+
+        .lane {
+            flex: 0 0 40px;
+        }
+
+        .number {
+            flex: 0 0 50px;
+        }
+
+        .name {
+            flex: 1 1 auto;
+        }
+
+        .finish-time {
+            flex: 0 0 60px;
+        }
+    }
+}

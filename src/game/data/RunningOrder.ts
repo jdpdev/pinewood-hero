@@ -2,6 +2,7 @@ import { Racer } from "./Racer";
 
 export class RunningOrder {
     private _finishTime: number = 0;
+    private _finishPlace: number = 0;
     private _isPhotoFinish: boolean = false;
     private _isFinished: boolean = false;
 
@@ -19,6 +20,10 @@ export class RunningOrder {
         this._isFinished = true;
     }
 
+    setFinishPlace(place: number) {
+        this._finishPlace = place;
+    }
+
     get racer() {
         return this._racer;
     }
@@ -29,6 +34,10 @@ export class RunningOrder {
 
     get finishTime() {
         return this._finishTime;
+    }
+
+    get finishPlace() {
+        return this._finishPlace;
     }
 
     get isFinished() {

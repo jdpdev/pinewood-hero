@@ -6,7 +6,8 @@ export class DailyRace {
 
     constructor(
         private _racers: Racer[],
-        private _length: number
+        private _length: number,
+        private _dailyNumber: number
     ) {
         this._id = Phaser.Math.RND.uuid();
     }
@@ -29,5 +30,9 @@ export class DailyRace {
 
     set winner(winner: Racer) {
         this._winner = winner;
+    }
+
+    get dailyNumber() {
+        return this._dailyNumber;
     }
 }

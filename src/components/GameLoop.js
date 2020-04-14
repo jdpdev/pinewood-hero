@@ -8,6 +8,7 @@ import { PhaserComponent } from "./Phaser";
 import DailyRaceList from "./DailyRaceList";
 
 import './style/GameLoop.scss'
+import CurrentRace from "./CurrentRace";
 
 function GameLoop({day, currentRace, dailyRaces, racers, loadRace}) {
     useEffect(() => {
@@ -20,12 +21,7 @@ function GameLoop({day, currentRace, dailyRaces, racers, loadRace}) {
                 <PhaserComponent />
             </div>
             <div className='race-outline'>
-                <div>
-                    <h4>Day {day} - Race {currentRace + 1}</h4>
-                    <button onClick={() => loadRace(dailyRaces[currentRace])}>
-                        Start Race {currentRace + 1}
-                    </button>
-                </div>
+                <CurrentRace />
             </div>
             <div className='daily-race-list'>
                 <DailyRaceList

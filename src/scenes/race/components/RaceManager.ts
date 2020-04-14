@@ -1,4 +1,4 @@
-import { Car } from "./Car";
+import { Car } from "./Car.ts";
 import { RaceWorld } from "./RaceWorld";
 import Track from "./Track";
 import { Racer } from "../../../game/data/Racer";
@@ -89,7 +89,7 @@ export class RaceManager {
         const endDistance = this._track.winningDistance;
         const newOrder = [...this._runningOrder];
 
-        newOrder.forEach(runner => {
+        newOrder.forEach((runner, index) => {
             const car = this.getCarForRacer(runner.racer);
 
             if (!runner.isFinished) {
@@ -112,6 +112,9 @@ export class RaceManager {
                 return a.distance - b.distance;
             }
         });
+
+        // update finish place
+        newOrder.forEach((runner, index) => runner.setFinishPlace(index + 1));
 
         // compare and update
         let needsUpdate = false;
