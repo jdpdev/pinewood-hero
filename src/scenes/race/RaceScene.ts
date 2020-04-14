@@ -1,6 +1,6 @@
 import Phaser from 'phaser'
 import Track from './components/Track';
-import { RaceManager } from './components/RaceManager';
+import { RaceManager } from './components/RaceManager.ts';
 import { StartRaceEvent } from '../../events/StartRaceEvent';
 import { RaceWorld } from './components/RaceWorld';
 import { DailyRace } from '../../game/data/DailyRace';

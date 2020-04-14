@@ -11,4 +11,8 @@ export class Wheels {
     get radius() {
         return this._radius;
     }
+
+    get maxSpeed() {
+        return 0.2;
+    }
 }
