@@ -1,17 +1,30 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrophy } from '@fortawesome/free-solid-svg-icons'
 
 import './style/DailyRaceList.scss'
 
 function DailyRaceList({day, dailyRaces, currentRace}) {
-    console.log('[DailyRaceList] render')
-
-    useEffect(() => {console.log(`[DailyRaceList] useEffect ${dailyRaces.length}`)}, [dailyRaces])
-
     return (
         <div className='daily-race-list'>
             <h4>Day {day} - Scheduled Races</h4>
+            <div className='race-details'>
+                <div className='racer-row header'>
+                    <div className='race-number' />
+                    <div className='racer-icon' />
+                    <div className='racer-number'>
+                        #
+                    </div>
+                    <div className='racer-odds'>
+                        Odds
+                    </div>
+                    <div className='racer-name'>
+                        Name
+                    </div>
+                </div>
+            </div>
             {
                 dailyRaces.map((race, index) => (
                     <RaceItem
@@ -50,17 +63,6 @@ function RaceItem({race, index, currentRace}) {
                 {index + 1}
             </div>
             <div className='race-details'>
-                <div className='racer-row header'>
-                    <div className='racer-number'>
-                        #
-                    </div>
-                    <div className='racer-odds'>
-                        Odds
-                    </div>
-                    <div className='racer-name'>
-                        Name
-                    </div>
-                </div>
                 {
                     index >= currentRace ?
                     <PendingRace race={race} /> :
@@ -77,6 +79,7 @@ function PendingRace({race}) {
             {
                 race.racers.map(racer => (
                     <div key={racer.name} className='racer-row'>
+                        <div className='racer-icon' />
                         <div className='racer-number'>
                             {racer.number}
                         </div>
@@ -97,6 +100,9 @@ function CompletedRace({race}) {
     return (
         <div className='completed-race'>
             <div className='racer-row'>
+                <div className='racer-icon'>
+                    <FontAwesomeIcon icon={faTrophy} />
+                </div>
                 <div className='racer-number'>
                     {race.winner.number}
                 </div>

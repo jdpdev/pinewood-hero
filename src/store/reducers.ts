@@ -1,14 +1,16 @@
 import { DailyRaceActions } from "./actions/dailyRaceActions"
-import { initialState } from "./store";
+import { initialState, GameState } from "./store";
 import { InRaceActions, InRaceState } from "./actions/inRaceActions";
 import { StartRaceEvent } from "../events/StartRaceEvent";
+import { RunningOrder } from "../game/data/RunningOrder";
+import { DailyRace } from "../game/data/DailyRace";
 
 type ActionParams = {
     type: string,
     payload?: any
 }
 
-export function raceReducer(state = initialState, action: ActionParams) {
+export function raceReducer(state: GameState = initialState, action: ActionParams) {
     switch (action.type) {
         case DailyRaceActions.SetDay:
             const updatedDayState = {...state};
@@ -19,6 +21,9 @@ export function raceReducer(state = initialState, action: ActionParams) {
             const updatedRaceAction = {...state};
             updatedRaceAction.currentRace = action.payload;
             return updatedRaceAction;
+
+        case DailyRaceActions.NextDailyRace:
+            return {...state, currentRace: state.currentRace + 1}
 
         case DailyRaceActions.PrimeRace:
             return {
@@ -65,10 +70,24 @@ export function raceReducer(state = initialState, action: ActionParams) {
         case InRaceActions.Finish:
             return {
                 ...state, 
-                currentRaceState: InRaceState.Finished
+                currentRaceState: InRaceState.Finished,
+                dailyRaces: updateRaceWinner(state, state.loadedRace, action.payload)
             };
 
         default:
             return state;
     }
+}
+
+function updateRaceWinner(state: GameState, race: DailyRace, winner: RunningOrder) {
+    const races = [...state.dailyRaces];
+
+    for (let i = 0; i < races.length; i++) {
+        if (races[i].id == race.id) {
+            races[i].winner = winner.racer;
+            break;
+        }
+    }
+
+    return races;
 }

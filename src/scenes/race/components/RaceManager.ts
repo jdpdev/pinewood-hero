@@ -176,6 +176,6 @@ export class RaceManager {
 
     private completeRace() {
         this._state = RaceState.Over;
-        store.dispatch(finishRace());
+        store.dispatch(finishRace(this._runningOrder[0]));
     }
 }

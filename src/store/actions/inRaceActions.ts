@@ -35,8 +35,9 @@ export function orderChange(order: RunningOrder[]) {
     }
 }
 
-export function finishRace() {
+export function finishRace(winner: RunningOrder) {
     return {
-        type: InRaceActions.Finish
+        type: InRaceActions.Finish,
+        payload: winner
     }
 }

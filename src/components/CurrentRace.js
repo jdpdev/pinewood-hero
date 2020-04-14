@@ -6,8 +6,9 @@ import { faTrophy, faMedal, faAward } from '@fortawesome/free-solid-svg-icons'
 import { InRaceState, loadRace } from "../store/actions/inRaceActions";
 
 import './style/CurrentRace.scss'
+import { nextDailyRace } from "../store/actions/dailyRaceActions";
 
-function CurrentRace({day, currentRace, currentRaceState, raceRunningOrder, loadedRace, loadRace}) {
+function CurrentRace({day, currentRace, currentRaceState, raceRunningOrder, loadedRace, loadRace, nextDailyRace}) {
     if (loadedRace == null) {
         return <div className='current-race-container' />
     }
@@ -40,6 +41,14 @@ function CurrentRace({day, currentRace, currentRaceState, raceRunningOrder, load
                     raceRunningOrder={raceRunningOrder} 
                 />
             }
+            {
+                currentRaceState === InRaceState.Finished &&
+                <button
+                    onClick={() => nextDailyRace()}
+                >
+                    Next Race
+                </button>
+            }
         </div>
     )
 }
@@ -52,7 +61,7 @@ const mapStateToProps = state => ({
     raceRunningOrder: state.raceRunningOrder
 });
 
-export default connect(mapStateToProps, {loadRace})(CurrentRace);
+export default connect(mapStateToProps, {loadRace, nextDailyRace})(CurrentRace);
 
 function NextRaceDisplay({loadedRace}) {
     return (
