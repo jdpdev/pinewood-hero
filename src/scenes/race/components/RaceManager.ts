@@ -66,6 +66,7 @@ export class RaceManager {
 
     private beginRace() {
         store.dispatch(startRace());
+        store.dispatch(orderChange(this._runningOrder));
         this._state = RaceState.Race;
     }
 
@@ -88,6 +89,7 @@ export class RaceManager {
     private updateRunningOrder() {
         const endDistance = this._track.winningDistance;
         const newOrder = [...this._runningOrder];
+        let needsUpdate = false;
 
         newOrder.forEach((runner, index) => {
             const car = this.getCarForRacer(runner.racer);
@@ -97,6 +99,7 @@ export class RaceManager {
 
                 if (car.distanceTraveled >= endDistance) {
                     runner.setFinishTime(this._raceTime);
+                    needsUpdate = true;
                 }
             }
         });
@@ -109,7 +112,7 @@ export class RaceManager {
             } else if (a.isFinished && b.isFinished) {
                 return a.finishTime - b.finishTime;
             } else {
-                return a.distance - b.distance;
+                return b.distance - a.distance;
             }
         });
 
@@ -117,12 +120,12 @@ export class RaceManager {
         newOrder.forEach((runner, index) => runner.setFinishPlace(index + 1));
 
         // compare and update
-        let needsUpdate = false;
-
-        for (let i = 0; i < this._runningOrder.length; i++) {
-            if (this._runningOrder[i].isDifferent(newOrder[i])) {
-                needsUpdate = true;
-                break;
+        if (!needsUpdate) {
+            for (let i = 0; i < this._runningOrder.length; i++) {
+                if (this._runningOrder[i].isDifferent(newOrder[i])) {
+                    needsUpdate = true;
+                    break;
+                }
             }
         }
 
