@@ -7,7 +7,7 @@ export function generateDailyRaces() {
     const {day, dailyRaces, currentRace, racers} = store.getState();
     
     const races = [
-        new DailyRace(racers, 30, 1),
+        new DailyRace(racers, 25, 1),
         new DailyRace(racers, 20, 2),
         new DailyRace(racers, 40, 3),
         new DailyRace(racers, 30, 4)

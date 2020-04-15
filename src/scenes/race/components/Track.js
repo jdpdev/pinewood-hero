@@ -27,7 +27,7 @@ export default class Track {
 
         // distance markers
         for (let x = 4; x < length; x += 5) {
-            this.world.placeDistanceMarker(x + 1, x, lanes, length - x);
+            this.world.placeDistanceMarker(length - x - 1, x, lanes, length - x);
         }
 
         this._winningDistance = (this.length - 2) * (709.94 * this.tiles[0][0].scaleX);
