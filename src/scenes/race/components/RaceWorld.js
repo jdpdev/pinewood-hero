@@ -27,6 +27,12 @@ export class RaceWorld extends Phaser.GameObjects.Container {
         return tile;
     }
 
+    placeVehicle(tileX, tileY, height) {
+        const {x, y} = this.getRealCoordinate(tileX, tileY, height);
+        const container = this.scene.add.container(x, y);
+        return container;
+    }
+
     placeDistanceMarker(label, tileX, tileY, height) {
         const {x, y} = this.getRealCoordinate(tileX, tileY, height);
         const text = this.scene.add.text(x - 30, y - 10, label, distanceMarkerStyle);
@@ -40,5 +46,16 @@ export class RaceWorld extends Phaser.GameObjects.Container {
         const y = ((tileX + tileY) * Y_STEP) - (height * H_STEP);
 
         return {x , y};
+    }
+
+    makeSprite(icon, container) {
+        const image = this.scene.add.image(0, 0, icon);
+        image.setDisplaySize(TILE_WIDTH, TILE_WIDTH);
+
+        if (container) {
+            container.add(image);
+        }
+
+        return image;
     }
 }

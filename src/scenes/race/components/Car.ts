@@ -9,6 +9,7 @@ export class Car {
     private _distanceTraveled = 0;
     private _weight = 0;
 
+    private _vehicle: Phaser.GameObjects.Container;
     private _shadowImage: any;
     private _bodyImage: any;
 
@@ -27,15 +28,24 @@ export class Car {
         const x = 0;
         const y = this.lane;
         const height = this.track.length;
+        const body = this._racer.body;
+        const wheels = this._racer.wheels;
 
-        this._shadowImage = this.world.placeTile('car-shadow', x, y, height);
-        this._bodyImage = this.world.placeTile('car', x, y, height);
+        this._vehicle = this.world.placeVehicle(x, y, height);
+
+        //this._shadowImage = this.world.placeTile(body.shadowIcon, x, y, height);
+        this._shadowImage = this.world.makeSprite(body.shadowIcon, this._vehicle);
+        this._bodyImage = this.world.makeSprite(body.icon, this._vehicle);
+
+        /*const frwheel = this.world.makeSprite(wheels.icon);
+        this._bodyImage.add(frwheel);
+        frwheel.setPosition(body.wheelOffsets.frontRight.x, body.wheelOffsets.frontRight.y);*/
 
         this._weight = this.calculateWeight();
     }
 
     move(x, y) {
-        const parts = [this._shadowImage, this._bodyImage];
+        const parts = [this._vehicle];
         parts.forEach(part => {
             part.x += x;
             part.y += y;

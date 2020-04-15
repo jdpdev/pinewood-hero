@@ -30,8 +30,9 @@ export default class Track {
             this.world.placeDistanceMarker(length - x - 1, x, lanes, length - x);
         }
 
-        this._winningDistance = (this.length - 2) * (709.94 * this.tiles[0][0].scaleX);
-        this._endDistance = (this.length - 1) * (709.94 * this.tiles[0][0].scaleX);
+        const scale = this.tiles[0][0].scaleX;
+        this._winningDistance = (this.length - 2) * (709.94 * scale);
+        this._endDistance = (this.length - 1) * (709.94 * scale);
 
         // return position to center on
         if (lanes % 2) {
