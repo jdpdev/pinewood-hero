@@ -1,3 +1,4 @@
+//@ts-ignore
 import { Car } from "./Car.ts";
 import { RaceWorld } from "./RaceWorld";
 import Track from "./Track";

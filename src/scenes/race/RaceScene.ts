@@ -1,11 +1,13 @@
 import Phaser from 'phaser'
 import Track from './components/Track';
+// @ts-ignore
 import { RaceManager } from './components/RaceManager.ts';
-import { StartRaceEvent } from '../../events/StartRaceEvent';
+import { StartRaceEvent, START_RACE_EVENT } from '../../events/StartRaceEvent';
 import { RaceWorld } from './components/RaceWorld';
 import { DailyRace } from '../../game/data/DailyRace';
-
-export const RACE_SCENE = 'ready-set-race';
+import { registerListener } from '../../events/core';
+import { NEXT_RACE_EVENT } from '../../events/NextRaceEvent';
+import { Scenes } from '../sceneTypes';
 
 export class RaceScene extends Phaser.Scene {
     private world: RaceWorld;
@@ -15,7 +17,7 @@ export class RaceScene extends Phaser.Scene {
 
     constructor() {
         super({
-            key: RACE_SCENE,
+            key: Scenes.Race,
             cameras: {
                 name: 'main',
                 x: 0,
@@ -51,6 +53,9 @@ export class RaceScene extends Phaser.Scene {
     }
 
     create() {
+        const callback = () => this.scene.start(Scenes.Loading);
+        registerListener(NEXT_RACE_EVENT, callback);
+
         //@ts-ignore
         this.world = this.add.raceWorld();
 

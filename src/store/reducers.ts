@@ -4,6 +4,7 @@ import { InRaceActions, InRaceState } from "./actions/inRaceActions";
 import { StartRaceEvent } from "../events/StartRaceEvent";
 import { RunningOrder } from "../game/data/RunningOrder";
 import { DailyRace } from "../game/data/DailyRace";
+import { NextRaceEvent } from "../events/NextRaceEvent";
 
 type ActionParams = {
     type: string,
@@ -23,7 +24,14 @@ export function raceReducer(state: GameState = initialState, action: ActionParam
             return updatedRaceAction;
 
         case DailyRaceActions.NextDailyRace:
-            return {...state, currentRace: state.currentRace + 1}
+            new NextRaceEvent().dispatch();
+
+            return {
+                ...state, 
+                currentRace: state.currentRace + 1,
+                loadedRace: state.dailyRaces[state.currentRace + 1],
+                currentRaceState: InRaceState.Loaded
+            }
 
         case DailyRaceActions.PrimeRace:
             return {
