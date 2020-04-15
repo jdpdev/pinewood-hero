@@ -6,12 +6,14 @@ import { faTrophy, faMedal, faAward } from '@fortawesome/free-solid-svg-icons'
 import { InRaceState, loadRace } from "../store/actions/inRaceActions";
 
 import './style/CurrentRace.scss'
-import { nextDailyRace } from "../store/actions/dailyRaceActions";
+import { nextDailyRace, startNextDay } from "../store/actions/dailyRaceActions";
 
-function CurrentRace({day, currentRace, currentRaceState, raceRunningOrder, loadedRace, loadRace, nextDailyRace}) {
+function CurrentRace({day, dailyRaces, currentRace, currentRaceState, raceRunningOrder, loadedRace, loadRace, nextDailyRace, startNextDay}) {
     if (loadedRace == null) {
         return <div className='current-race-container' />
     }
+
+    const gotoNextDay = dailyRaces.length - 1 === currentRace;
 
     return (
         <div className='current-race-container'>
@@ -43,9 +45,15 @@ function CurrentRace({day, currentRace, currentRaceState, raceRunningOrder, load
             }
             {
                 currentRaceState === InRaceState.Finished &&
-                <button
-                    onClick={() => nextDailyRace()}
-                >
+                gotoNextDay &&
+                <button onClick={() => startNextDay()}>
+                    Next Day
+                </button>
+            }
+            {
+                currentRaceState === InRaceState.Finished &&
+                !gotoNextDay &&
+                <button onClick={() => nextDailyRace()}>
                     Next Race
                 </button>
             }
@@ -55,13 +63,14 @@ function CurrentRace({day, currentRace, currentRaceState, raceRunningOrder, load
 
 const mapStateToProps = state => ({
     day: state.day,
+    dailyRaces: state.dailyRaces,
     loadedRace: state.loadedRace,
     currentRace: state.currentRace,
     currentRaceState: state.currentRaceState,
     raceRunningOrder: state.raceRunningOrder
 });
 
-export default connect(mapStateToProps, {loadRace, nextDailyRace})(CurrentRace);
+export default connect(mapStateToProps, {loadRace, nextDailyRace, startNextDay})(CurrentRace);
 
 function NextRaceDisplay({loadedRace}) {
     return (

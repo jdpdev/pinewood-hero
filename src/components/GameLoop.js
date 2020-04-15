@@ -34,10 +34,6 @@ function GameLoop({day, currentRace, dailyRaces, racers, loadRace}) {
     )
 }
 
-function loadNextRace(loadRace, race) {
-    loadRace(race);
-}
-
 const mapStateToProps = state => {
     return {
         day: state.day,

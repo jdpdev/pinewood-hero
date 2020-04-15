@@ -18,6 +18,15 @@ export function raceReducer(state: GameState = initialState, action: ActionParam
             updatedDayState.day = action.payload;
             return updatedDayState;
 
+        case DailyRaceActions.NextDay:
+            new NextRaceEvent().dispatch();
+
+            return {
+                ...state, 
+                day: state.day + 1,
+                dailyRaces: []
+            }
+
         case DailyRaceActions.SetCurrentRace:
             const updatedRaceAction = {...state};
             updatedRaceAction.currentRace = action.payload;

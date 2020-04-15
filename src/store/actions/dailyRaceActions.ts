@@ -3,6 +3,7 @@ import { Racer } from "../../game/data/Racer"
 
 export enum DailyRaceActions {
     SetDay = 'set-game-day',
+    NextDay = 'daily-race-next-day',
     SetCurrentRace = 'daily-race-set-current',
     NextDailyRace = 'daily-race-next',
     AddRace = 'daily-race-add-race',
@@ -15,6 +16,12 @@ export function setCurrentDay(day: number) {
     return {
         type: DailyRaceActions.SetDay,
         payload: day
+    }
+}
+
+export function startNextDay() {
+    return {
+        type: DailyRaceActions.NextDay
     }
 }
 
