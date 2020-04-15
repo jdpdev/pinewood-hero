@@ -5,6 +5,8 @@ import { Body } from "../game/data/Body";
 import { Wheels } from "../game/data/Wheels";
 import { RunningOrder } from "../game/data/RunningOrder";
 import { InRaceState } from "./actions/inRaceActions";
+import {BodyList} from '../game/content/bodies'
+import { WheelList } from "../game/content/wheels";
 
 export type GameState = {
     day: number,
@@ -29,29 +31,29 @@ export const initialState: GameState = {
             'Oh Hi Mark', 
             '16',
             new Driver('Roll Fizzlebeef', 0),
-            new Body(2000, 0),
-            new Wheels(0, 1)
+            BodyList.get('wedgerator'),
+            WheelList.get('thinnies')
         ),
         new Racer(
             'Lemon Soiree', 
             '69',
             new Driver('Stump Chunkman', 0),
-            new Body(2000, 0),
-            new Wheels(0, 2)
+            BodyList.get('wedgerator'),
+            WheelList.get('rolleroos')
         ),
         new Racer(
             '2 Butts 1 Seat', 
             '420',
             new Driver('Bob Johnson', 0),
-            new Body(2000, 0),
-            new Wheels(0, 3)
+            BodyList.get('wedgerator'),
+            WheelList.get('disco')
         ),
         new Racer(
             'My Staircase', 
             '00',
             new Driver('Crunch Buttsteak', 0),
-            new Body(2000, 0),
-            new Wheels(0, 4)
+            BodyList.get('wedgerator'),
+            WheelList.get('chonkers')
         ),
     ]
 }

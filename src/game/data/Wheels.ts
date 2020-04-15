@@ -1,7 +1,10 @@
 export class Wheels {
     constructor(
+        private _name: string,
         private _weight: number,
-        private _radius: number
+        private _radius: number,
+        private _icon: string,
+        private _description: string
     ) { }
 
     get weight() {
@@ -14,5 +17,17 @@ export class Wheels {
 
     get maxSpeed() {
         return 200;
+    }
+
+    get name() {
+        return this._name;
+    }
+
+    get description() {
+        return this._description;
+    }
+
+    get icon() {
+        return this._icon;
     }
 }
