@@ -51,6 +51,9 @@ export class RaceScene extends Phaser.Scene {
         this.load.image('launch-zone', 'images/launch-zone.png');
         this.load.image('finish-zone', 'images/finish-zone.png');
         this.load.image('thinnies', 'images/thinnies.png');
+        this.load.image('chonkers', 'images/chonkers.png');
+        this.load.image('disco', 'images/disco.png');
+        this.load.image('rolleroos', 'images/rolleroos.png');
     }
 
     create() {
