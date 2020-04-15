@@ -37,10 +37,37 @@ export class Car {
         this._shadowImage = this.world.makeSprite(body.shadowIcon, this._vehicle);
         this._bodyImage = this.world.makeSprite(body.icon, this._vehicle);
 
-        /*const frwheel = this.world.makeSprite(wheels.icon);
-        this._bodyImage.add(frwheel);
-        frwheel.setPosition(body.wheelOffsets.frontRight.x, body.wheelOffsets.frontRight.y);*/
+        const frwheel = this.world.makeSprite(wheels.icon, this._vehicle);
+        frwheel.setPosition(
+            body.wheelOffsets.frontRight.x * frwheel.scaleX, 
+            body.wheelOffsets.frontRight.y * frwheel.scaleX
+        );
 
+        const flwheel = this.world.makeSprite(wheels.icon, this._vehicle);
+        flwheel.setPosition(
+            body.wheelOffsets.frontLeft.x * frwheel.scaleX, 
+            body.wheelOffsets.frontLeft.y * frwheel.scaleX
+        );
+
+        const blwheel = this.world.makeSprite(wheels.icon, this._vehicle);
+        blwheel.setPosition(
+            body.wheelOffsets.backLeft.x * frwheel.scaleX, 
+            body.wheelOffsets.backLeft.y * frwheel.scaleX
+        );
+
+        const brwheel = this.world.makeSprite(wheels.icon, this._vehicle);
+        brwheel.setPosition(
+            body.wheelOffsets.backRight.x * frwheel.scaleX, 
+            body.wheelOffsets.backRight.y * frwheel.scaleX
+        );
+
+        this._vehicle.moveTo(this._shadowImage, 0);
+        this._vehicle.moveTo(blwheel, 1);
+        this._vehicle.moveTo(flwheel, 2);
+        this._vehicle.moveTo(this._bodyImage, 3);
+        this._vehicle.moveTo(frwheel, 4);
+        this._vehicle.moveTo(brwheel, 5);
+        
         this._weight = this.calculateWeight();
     }
 
